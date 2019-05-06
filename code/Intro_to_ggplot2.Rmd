@@ -1,0 +1,71 @@
+---
+title: "Introduction to ggplot2"
+subtitle: "(and a little tidyverse)"
+author: "Jacob Spangler"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+# Overview
+
+What is ggplot2?
+ - **ggplot2** is a system for declaratively creating graphics, based on The Grammar of Graphics. You provide the data, tell **ggplot2** how to map variables to aesthetics, what graphical primitives to use, and it takes care of the details.
+
+---
+
+# How to install?
+
+```{r eval=F, tidy=F}
+
+# The easiest way to get ggplot2 is to install the whole tidyverse:
+install.packages("tidyverse")
+
+# Alternatively, install just ggplot2:
+install.packages("ggplot2")
+
+# Or the the development version from GitHub:
+# install.packages("devtools")
+devtools::install_github("tidyverse/ggplot2")
+
+```
+
+---
+
+# Dataset
+
+**Placeholder**
+
+
+---
+
+# Scatterplot
+
+```{r, echo=F}
+
+Reformat_Data <- Data %>% 
+  separate(`nace_r2,isco08,worktime,age,sex,indic_se,geo\\time`,
+           into=c("nace_r2", "isco08", "worktime", "age", "sex", "indic_se", "geo"),
+           remove=T, convert=F, sep=",") %>% 
+  gather(key=Year, value=Value, -nace_r2, -isco08, -worktime, -age, -sex, -indic_se, -geo) %>% 
+  mutate(Value=as.numeric(Value)) %>% 
+  filter(!is.na(Value))
+
+```
+
+---
+
+# Histogram
+
+```{r}
+
+ggplot(Reformat_Data, aes(x=Value)) +
+  
+
+```
+
