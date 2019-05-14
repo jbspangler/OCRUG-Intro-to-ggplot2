@@ -37,10 +37,121 @@ devtools::install_github("tidyverse/ggplot2")
 
 ---
 
+# Iris Data
+
+```{r, echo=F}
+
+library(tidyverse)
+Iris_Data <- iris %>% as.tbl()
+
+Iris_Data
+
+```
+
+---
+
+# Scatterplot
+
+```{r, fig.height=4, fig.width=4}
+
+ggplot(Iris_Data, aes(x=Sepal.Length, y=Sepal.Width)) +
+  geom_point()
+
+```
+
+---
+
+# Options for Scatterplots
+
+- Add a diagonal line
+
+.pull-left[
+
+```{r, fig.height=4, fig.width=4}
+
+ggplot(Iris_Data, aes(x=Sepal.Length, y=Sepal.Width)) +
+  geom_point() +
+  geom_abline()
+
+```
+
+]
+
+.pull-right[
+
+- Add color
+
+```{r, fig.height=4, fig.width=4}
+
+ggplot(Iris_Data, aes(x=Sepal.Length, y=Sepal.Width,
+                      color=Species)) +
+  geom_point() +
+  geom_abline()
+
+```
+
+]
+
+---
+
+# Histograms
+
+```{r, fig.height=4, fig.width=4}
+
+ggplot(Iris_Data, aes(x=Sepal.Length)) +
+  geom_histogram()
+
+```
+
+---
+
+# Options for Histograms
+
+.pull-left[
+
+- Outline the bins
+- Set bin sizes
+
+```{r, fig.height=4, fig.width=4}
+
+ggplot(Iris_Data, aes(x=Sepal.Length)) +
+  geom_histogram(color="black", binwidth = 0.2)
+
+```
+
+]
+
+
+.pull-right[
+
+- Facet histograms by other variables
+- Remove Legend
+
+```{r, fig.height=4, fig.width=4}
+
+ggplot(Iris_Data, aes(x=Sepal.Length, fill=Species)) +
+  geom_histogram(color="black", binwidth = 0.2) +
+  facet_wrap(~Species, ncol=1) +
+  theme(legend.position = "none")
+
+```
+
+]
+
+---
+
 # Dataset
 
-**Placeholder**
+- What about example data set?
 
+```{r, echo=F}
+
+Example_Data <- read_csv("../data/raw/Public Potable Water Systems FINAL 06-22-2018_0.csv",
+                         col_types = cols())
+
+Example_Data
+
+```
 
 ---
 
@@ -48,13 +159,11 @@ devtools::install_github("tidyverse/ggplot2")
 
 ```{r, echo=F}
 
-Reformat_Data <- Data %>% 
-  separate(`nace_r2,isco08,worktime,age,sex,indic_se,geo\\time`,
-           into=c("nace_r2", "isco08", "worktime", "age", "sex", "indic_se", "geo"),
-           remove=T, convert=F, sep=",") %>% 
-  gather(key=Year, value=Value, -nace_r2, -isco08, -worktime, -age, -sex, -indic_se, -geo) %>% 
-  mutate(Value=as.numeric(Value)) %>% 
-  filter(!is.na(Value))
+ggplot(Example_Data, aes(x=`Residential Population`, 
+                         y=`Number of COMBINED Service Connections (CB)`)) +
+  geom_point(alpha=0.4) +
+  scale_x_continuous(labels = scales::comma) +
+  scale_y_continuous(labels = scales::comma)
 
 ```
 
@@ -64,8 +173,9 @@ Reformat_Data <- Data %>%
 
 ```{r}
 
-ggplot(Reformat_Data, aes(x=Value)) +
-  
+ggplot(Example_Data, aes(x=`Residential Population`)) +
+  geom_histogram(color="black") +
+  scale_x_continuous(labels = scales::comma)
 
 ```
 
