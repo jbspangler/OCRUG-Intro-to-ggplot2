@@ -15,5 +15,7 @@ This places the projects into a number of sub-folders for easy relative director
                      - pictures
                 - scratch
 
+
 The presentation was made using xarigan: https://github.com/yihui/xaringan
+
 Additional reading on xarigan can be found here: https://bookdown.org/yihui/rmarkdown/xaringan.html

@@ -14,8 +14,62 @@ output:
 
 # Overview
 
-What is ggplot2?
- - **ggplot2** is a system for declaratively creating graphics, based on The Grammar of Graphics. You provide the data, tell **ggplot2** how to map variables to aesthetics, what graphical primitives to use, and it takes care of the details.
+  - What is ggplot2?
+  - Review plotting
+  - Utility of ggplot2
+  - Exploring data
+  - Conclusions
+  
+---
+
+# What is ggplot2?
+
+![](http://static1.squarespace.com/static/58ae4af3414fb53937b7619e/5bcf38c5eef1a1d9fe7b884f/5beae66c40ec9a5c157d6c35/1542121257177/ggplot2.png?format=1500w)
+
+--
+
+**ggplot2** is a system for declaratively creating graphics, based on The Grammar of Graphics. You provide the data, tell **ggplot2** how to map variables to aesthetics, what graphical primitives to use, and it takes care of the details.
+
+---
+
+# Iris Data
+
+```{r, echo=F}
+
+library(tidyverse)
+Iris_Data <- iris %>% as.tbl()
+
+Iris_Data
+
+```
+
+---
+
+# Base R Plots
+
+.pull-left[
+
+Scatterplot
+
+```{r, fig.height=4, fig.width=4}
+
+plot(Iris_Data$Sepal.Length, Iris_Data$Sepal.Width)
+
+```
+
+]
+
+.pull-right[
+
+Histogram
+
+```{r, fig.height=4, fig.width=4}
+
+hist(Iris_Data$Sepal.Length)
+
+```
+
+]
 
 ---
 
@@ -37,22 +91,9 @@ devtools::install_github("tidyverse/ggplot2")
 
 ---
 
-# Iris Data
+# Scatterplots in ggplot2
 
-```{r, echo=F}
-
-library(tidyverse)
-Iris_Data <- iris %>% as.tbl()
-
-Iris_Data
-
-```
-
----
-
-# Scatterplot
-
-```{r, fig.height=4, fig.width=4}
+```{r, fig.height=5, fig.width=5}
 
 ggplot(Iris_Data, aes(x=Sepal.Length, y=Sepal.Width)) +
   geom_point()
@@ -61,11 +102,12 @@ ggplot(Iris_Data, aes(x=Sepal.Length, y=Sepal.Width)) +
 
 ---
 
-# Options for Scatterplots
+# Options for ggplot2 Scatterplots
 
-- Add a diagonal line
 
 .pull-left[
+
+- Add a diagonal line
 
 ```{r, fig.height=4, fig.width=4}
 
@@ -94,9 +136,9 @@ ggplot(Iris_Data, aes(x=Sepal.Length, y=Sepal.Width,
 
 ---
 
-# Histograms
+# Histograms in ggplot2
 
-```{r, fig.height=4, fig.width=4}
+```{r, fig.height=5, fig.width=5, warning=F, message=F}
 
 ggplot(Iris_Data, aes(x=Sepal.Length)) +
   geom_histogram()
@@ -105,7 +147,7 @@ ggplot(Iris_Data, aes(x=Sepal.Length)) +
 
 ---
 
-# Options for Histograms
+# Options for ggplot2 Histograms
 
 .pull-left[
 
@@ -140,24 +182,24 @@ ggplot(Iris_Data, aes(x=Sepal.Length, fill=Species)) +
 
 ---
 
-# Dataset
-
-- What about example data set?
+# DataFest Dataset
 
 ```{r, echo=F}
 
 Example_Data <- read_csv("../data/raw/Public Potable Water Systems FINAL 06-22-2018_0.csv",
                          col_types = cols())
 
-Example_Data
-
 ```
+
+- What about example data set?
+  - There are **`r nrow(Example_Data)`** rows
+  - There are **`r ncol(Example_Data)`** columns
 
 ---
 
-# Scatterplot
+# DataFest Scatterplot
 
-```{r, echo=F}
+```{r, fig.height=4, fig.width=6, warning=F, message=F}
 
 ggplot(Example_Data, aes(x=`Residential Population`, 
                          y=`Number of COMBINED Service Connections (CB)`)) +
@@ -169,13 +211,20 @@ ggplot(Example_Data, aes(x=`Residential Population`,
 
 ---
 
-# Histogram
+# DataFest Histogram
 
-```{r}
+```{r, fig.height=4, fig.width=6, warning=F, message=F}
 
 ggplot(Example_Data, aes(x=`Residential Population`)) +
   geom_histogram(color="black") +
   scale_x_continuous(labels = scales::comma)
 
 ```
+
+---
+
+# References
+
+- [xaringan](https://github.com/yihui/xaringan)
+- [tidyverse](https://www.tidyverse.org/)
 
