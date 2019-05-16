@@ -12,64 +12,57 @@ output:
       countIncrementalSlides: false
 ---
 
+<style type="text/css">
+.remark-slide-content {
+    font-size: 30px;
+    padding: 1em 4em 1em 4em;
+}
+</style>
+
 # Overview
 
+  - Plotting in R
   - What is ggplot2?
-  - Review plotting
-  - Utility of ggplot2
+  - Examples of ggplot2
   - Exploring data
   - Conclusions
   
 ---
 
+# Base R Plots (Scatterplot)
+
+```{r, fig.height=5, fig.width=5}
+
+plot(x=Iris_Data$Sepal.Length,
+     y=Iris_Data$Sepal.Width)
+
+```
+
+---
+
+# Base R Plots (Histogram)
+
+```{r, fig.height=5, fig.width=5}
+
+hist(x=Iris_Data$Sepal.Length)
+
+```
+
+---
+
+# Base R Plots (Boxplots)
+
+```{r, fig.height=5, fig.width=5}
+
+boxplot(Sepal.Length ~ Species, data=Iris_Data)
+
+```
+
+---
+
 # What is ggplot2?
 
-![](http://static1.squarespace.com/static/58ae4af3414fb53937b7619e/5bcf38c5eef1a1d9fe7b884f/5beae66c40ec9a5c157d6c35/1542121257177/ggplot2.png?format=1500w)
-
---
-
 **ggplot2** is a system for declaratively creating graphics, based on The Grammar of Graphics. You provide the data, tell **ggplot2** how to map variables to aesthetics, what graphical primitives to use, and it takes care of the details.
-
----
-
-# Iris Data
-
-```{r, echo=F}
-
-library(tidyverse)
-Iris_Data <- iris %>% as.tbl()
-
-Iris_Data
-
-```
-
----
-
-# Base R Plots
-
-.pull-left[
-
-Scatterplot
-
-```{r, fig.height=4, fig.width=4}
-
-plot(Iris_Data$Sepal.Length, Iris_Data$Sepal.Width)
-
-```
-
-]
-
-.pull-right[
-
-Histogram
-
-```{r, fig.height=4, fig.width=4}
-
-hist(Iris_Data$Sepal.Length)
-
-```
-
-]
 
 ---
 
@@ -91,73 +84,130 @@ devtools::install_github("tidyverse/ggplot2")
 
 ---
 
-# Scatterplots in ggplot2
+# ggplot2 Scatterplots
 
 ```{r, fig.height=5, fig.width=5}
 
-ggplot(Iris_Data, aes(x=Sepal.Length, y=Sepal.Width)) +
+ggplot(Iris_Data) +
+  aes(x=Sepal.Length, y=Sepal.Width) +
   geom_point()
 
 ```
 
 ---
 
-# Options for ggplot2 Scatterplots
+# ggplot2 Scatterplots -  Add a diagonal line
 
+```{r, fig.height=5, fig.width=5}
 
-.pull-left[
-
-- Add a diagonal line
-
-```{r, fig.height=4, fig.width=4}
-
-ggplot(Iris_Data, aes(x=Sepal.Length, y=Sepal.Width)) +
+ggplot(Iris_Data) +
+  aes(x=Sepal.Length, y=Sepal.Width) +
   geom_point() +
   geom_abline()
 
 ```
-
-]
-
-.pull-right[
-
-- Add color
-
-```{r, fig.height=4, fig.width=4}
-
-ggplot(Iris_Data, aes(x=Sepal.Length, y=Sepal.Width,
-                      color=Species)) +
-  geom_point() +
-  geom_abline()
-
-```
-
-]
 
 ---
 
-# Histograms in ggplot2
+# ggplot2 Scatterplots - Add color
+
+```{r, fig.height=5, fig.width=5}
+
+ggplot(Iris_Data) +
+  aes(x=Sepal.Length, y=Sepal.Width,
+      color=Species) +
+  geom_point() +
+  geom_abline()
+
+```
+
+---
+
+# ggplot2 Histograms
 
 ```{r, fig.height=5, fig.width=5, warning=F, message=F}
 
-ggplot(Iris_Data, aes(x=Sepal.Length)) +
+ggplot(Iris_Data) + 
+  aes(x=Sepal.Length) +
   geom_histogram()
 
 ```
 
 ---
 
-# Options for ggplot2 Histograms
+# ggplot2 Histograms - Bin options
+
+```{r, fig.height=5, fig.width=5}
+
+ggplot(Iris_Data) +
+  aes(x=Sepal.Length) +
+  geom_histogram(color="black", binwidth = 0.2)
+
+```
+
+---
+
+# ggplot2 Histograms - Faceting
+
+
+```{r, fig.height=5, fig.width=5}
+
+ggplot(Iris_Data) +
+  aes(x=Sepal.Length, fill=Species) +
+  geom_histogram(color="black", binwidth = 0.2) +
+  facet_wrap(~Species, ncol=1) +
+  theme(legend.position = "none")
+
+```
+
+---
+
+# ggplot2 Boxplots
+
+```{r, fig.height=5, fig.width=5, warning=F, message=F}
+
+ggplot(Iris_Data) + 
+  aes(x=Species, y=Sepal.Length) +
+  geom_boxplot()
+
+```
+
+---
+
+# ggplot2 Boxplots - Adding color
+
+```{r, fig.height=5, fig.width=5, warning=F, message=F}
+
+ggplot(Iris_Data) + 
+  aes(x=Species, y=Sepal.Length, color=Species) +
+  geom_boxplot()
+
+```
+
+---
+
+# ggplot2 Boxplots - Adding points
+
+```{r, fig.height=5, fig.width=5, warning=F, message=F}
+
+ggplot(Iris_Data) + 
+  aes(x=Species, y=Sepal.Length, color=Species) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(position = position_jitter(height = 0, 
+                                        width = 0.3))
+
+```
+
+---
+
+# base R vs ggplot2 - Scatterplots
 
 .pull-left[
 
-- Outline the bins
-- Set bin sizes
+```{r, echo=F, fig.height=5, fig.width=5}
 
-```{r, fig.height=4, fig.width=4}
-
-ggplot(Iris_Data, aes(x=Sepal.Length)) +
-  geom_histogram(color="black", binwidth = 0.2)
+plot(x=Iris_Data$Sepal.Length,
+     y=Iris_Data$Sepal.Width)
 
 ```
 
@@ -166,20 +216,15 @@ ggplot(Iris_Data, aes(x=Sepal.Length)) +
 
 .pull-right[
 
-- Facet histograms by other variables
-- Remove Legend
+```{r, echo=F, fig.height=5, fig.width=5}
 
-```{r, fig.height=4, fig.width=4}
-
-ggplot(Iris_Data, aes(x=Sepal.Length, fill=Species)) +
-  geom_histogram(color="black", binwidth = 0.2) +
-  facet_wrap(~Species, ncol=1) +
-  theme(legend.position = "none")
+ggplot(Iris_Data) +
+  aes(x=Sepal.Length, y=Sepal.Width) +
+  geom_point()
 
 ```
 
 ]
-
 ---
 
 # DataFest Dataset
@@ -201,8 +246,9 @@ Example_Data <- read_csv("../data/raw/Public Potable Water Systems FINAL 06-22-2
 
 ```{r, fig.height=4, fig.width=6, warning=F, message=F}
 
-ggplot(Example_Data, aes(x=`Residential Population`, 
-                         y=`Number of COMBINED Service Connections (CB)`)) +
+ggplot(Example_Data) + 
+  aes(x=`Residential Population`, 
+      y=`Number of COMBINED Service Connections (CB)`) +
   geom_point(alpha=0.4) +
   scale_x_continuous(labels = scales::comma) +
   scale_y_continuous(labels = scales::comma)
@@ -223,8 +269,16 @@ ggplot(Example_Data, aes(x=`Residential Population`)) +
 
 ---
 
+# Conclusions
+
+
+
+---
+
 # References
 
-- [xaringan](https://github.com/yihui/xaringan)
-- [tidyverse](https://www.tidyverse.org/)
+- xaringan: https://github.com/yihui/xaringan
 
+- tidyverse: https://www.tidyverse.org/
+
+- R for Data Science: https://r4ds.had.co.nz/index.html
