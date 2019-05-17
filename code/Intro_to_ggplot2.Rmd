@@ -2,7 +2,7 @@
 title: "Introduction to ggplot2"
 subtitle: "(and a little tidyverse)"
 author: "Jacob Spangler"
-date: "`r Sys.Date()`"
+date: "2019-05-18"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -21,40 +21,50 @@ output:
 
 # Overview
 
-  - Plotting in R
+  - Review Plotting in R
+  
   - What is ggplot2?
+  
   - Examples of ggplot2
+  
   - Exploring data
+  
   - Conclusions
   
----
+```{r, echo=F, message=F, warning=F}
 
-# Base R Plots (Scatterplot)
-
-```{r, fig.height=5, fig.width=5}
-
-plot(x=Iris_Data$Sepal.Length,
-     y=Iris_Data$Sepal.Width)
+library(tidyverse)
 
 ```
 
 ---
 
-# Base R Plots (Histogram)
+# Base R Scatterplot
 
 ```{r, fig.height=5, fig.width=5}
 
-hist(x=Iris_Data$Sepal.Length)
+plot(x=iris$Sepal.Length,
+     y=iris$Sepal.Width)
 
 ```
 
 ---
 
-# Base R Plots (Boxplots)
+# Base R Histogram
 
 ```{r, fig.height=5, fig.width=5}
 
-boxplot(Sepal.Length ~ Species, data=Iris_Data)
+hist(x=iris$Sepal.Length)
+
+```
+
+---
+
+# Base R Boxplots
+
+```{r, fig.height=5, fig.width=5}
+
+boxplot(Sepal.Length ~ Species, data=iris)
 
 ```
 
@@ -88,7 +98,7 @@ devtools::install_github("tidyverse/ggplot2")
 
 ```{r, fig.height=5, fig.width=5}
 
-ggplot(Iris_Data) +
+ggplot(iris) +
   aes(x=Sepal.Length, y=Sepal.Width) +
   geom_point()
 
@@ -96,11 +106,11 @@ ggplot(Iris_Data) +
 
 ---
 
-# ggplot2 Scatterplots -  Add a diagonal line
+# ggplot2 Scatterplots - Diagonal Line
 
 ```{r, fig.height=5, fig.width=5}
 
-ggplot(Iris_Data) +
+ggplot(iris) +
   aes(x=Sepal.Length, y=Sepal.Width) +
   geom_point() +
   geom_abline()
@@ -109,13 +119,12 @@ ggplot(Iris_Data) +
 
 ---
 
-# ggplot2 Scatterplots - Add color
+# ggplot2 Scatterplots - Adding Color
 
 ```{r, fig.height=5, fig.width=5}
 
-ggplot(Iris_Data) +
-  aes(x=Sepal.Length, y=Sepal.Width,
-      color=Species) +
+ggplot(iris) +
+  aes(x=Sepal.Length, y=Sepal.Width, color=Species) +
   geom_point() +
   geom_abline()
 
@@ -127,7 +136,7 @@ ggplot(Iris_Data) +
 
 ```{r, fig.height=5, fig.width=5, warning=F, message=F}
 
-ggplot(Iris_Data) + 
+ggplot(iris) + 
   aes(x=Sepal.Length) +
   geom_histogram()
 
@@ -139,7 +148,7 @@ ggplot(Iris_Data) +
 
 ```{r, fig.height=5, fig.width=5}
 
-ggplot(Iris_Data) +
+ggplot(iris) +
   aes(x=Sepal.Length) +
   geom_histogram(color="black", binwidth = 0.2)
 
@@ -149,10 +158,9 @@ ggplot(Iris_Data) +
 
 # ggplot2 Histograms - Faceting
 
-
 ```{r, fig.height=5, fig.width=5}
 
-ggplot(Iris_Data) +
+ggplot(iris) +
   aes(x=Sepal.Length, fill=Species) +
   geom_histogram(color="black", binwidth = 0.2) +
   facet_wrap(~Species, ncol=1) +
@@ -166,7 +174,7 @@ ggplot(Iris_Data) +
 
 ```{r, fig.height=5, fig.width=5, warning=F, message=F}
 
-ggplot(Iris_Data) + 
+ggplot(iris) + 
   aes(x=Species, y=Sepal.Length) +
   geom_boxplot()
 
@@ -178,7 +186,7 @@ ggplot(Iris_Data) +
 
 ```{r, fig.height=5, fig.width=5, warning=F, message=F}
 
-ggplot(Iris_Data) + 
+ggplot(iris) + 
   aes(x=Species, y=Sepal.Length, color=Species) +
   geom_boxplot()
 
@@ -190,7 +198,7 @@ ggplot(Iris_Data) +
 
 ```{r, fig.height=5, fig.width=5, warning=F, message=F}
 
-ggplot(Iris_Data) + 
+ggplot(iris) + 
   aes(x=Species, y=Sepal.Length, color=Species) +
   geom_boxplot(outlier.shape = NA) +
   geom_point(position = position_jitter(height = 0, 
@@ -206,8 +214,8 @@ ggplot(Iris_Data) +
 
 ```{r, echo=F, fig.height=5, fig.width=5}
 
-plot(x=Iris_Data$Sepal.Length,
-     y=Iris_Data$Sepal.Width)
+plot(x=iris$Sepal.Length,
+     y=iris$Sepal.Width)
 
 ```
 
@@ -218,7 +226,7 @@ plot(x=Iris_Data$Sepal.Length,
 
 ```{r, echo=F, fig.height=5, fig.width=5}
 
-ggplot(Iris_Data) +
+ggplot(iris) +
   aes(x=Sepal.Length, y=Sepal.Width) +
   geom_point()
 
@@ -244,14 +252,12 @@ Example_Data <- read_csv("../data/raw/Public Potable Water Systems FINAL 06-22-2
 
 # DataFest Scatterplot
 
-```{r, fig.height=4, fig.width=6, warning=F, message=F}
+```{r, fig.height=5, fig.width=7, warning=F, message=F}
 
 ggplot(Example_Data) + 
   aes(x=`Residential Population`, 
       y=`Number of COMBINED Service Connections (CB)`) +
-  geom_point(alpha=0.4) +
-  scale_x_continuous(labels = scales::comma) +
-  scale_y_continuous(labels = scales::comma)
+  geom_point(alpha=0.4)
 
 ```
 
@@ -259,11 +265,10 @@ ggplot(Example_Data) +
 
 # DataFest Histogram
 
-```{r, fig.height=4, fig.width=6, warning=F, message=F}
+```{r, fig.height=5, fig.width=7, warning=F, message=F}
 
 ggplot(Example_Data, aes(x=`Residential Population`)) +
-  geom_histogram(color="black") +
-  scale_x_continuous(labels = scales::comma)
+  geom_histogram(color="black")
 
 ```
 
@@ -271,14 +276,37 @@ ggplot(Example_Data, aes(x=`Residential Population`)) +
 
 # Conclusions
 
+- **ggplot2** has better syntax
+- **ggplot2** defaults to prettier graphs
+- **ggplot2** has lots of flexibility
+
+```{r, echo=F, fig.height=5, fig.width=6}
+
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
+               "#CC79A7", "#FFFFFF")
+
+ggplot(iris) +
+  aes(x=Sepal.Length, y=Sepal.Width, color=Species) +
+  geom_point() +
+  xlab("Sepal Length") + ylab("Sepal Width") +
+  theme(axis.text = element_text(color="black", size=14),
+        plot.title = element_text(hjust=0.5, size = 16),
+        panel.border = element_rect(colour = "black", fill=NA, size=1),
+        axis.title = element_text(size=14)) +
+  ggtitle("Sepal Length vs Width in Iris data") +
+  scale_x_continuous(breaks=c(seq(4, 8, 1)), limits=c(4, 8)) +
+  scale_y_continuous(breaks=c(seq(2, 4.5, 0.5)), limits = c(2, 4.5)) +
+  scale_color_manual(values=cbPalette)
+
+```
 
 
 ---
 
 # References
 
-- xaringan: https://github.com/yihui/xaringan
-
 - tidyverse: https://www.tidyverse.org/
 
 - R for Data Science: https://r4ds.had.co.nz/index.html
+
+- xaringan: https://github.com/yihui/xaringan
